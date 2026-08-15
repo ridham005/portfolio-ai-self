@@ -1,0 +1,102 @@
+[
+  {
+    "id": "frontend",
+    "title": "FRONTEND /// WEB & UI",
+    "icon": "Cpu",
+    "accent": "border-sky-500 text-sky-400",
+    "badge": "ACTIVE",
+    "skills": [
+      {
+        "name": "HTML5 / CSS3 / Flexbox & Grid",
+        "level": 0
+      },
+      {
+        "name": "JavaScript (DOM, ES6+, Async)",
+        "level": 0
+      },
+      {
+        "name": "Tailwind CSS",
+        "level": 0
+      },
+      {
+        "name": "Git / GitHub Workflow",
+        "level": 0
+      }
+    ]
+  },
+  {
+    "id": "backend",
+    "title": "BACKEND /// PYTHON & APIS",
+    "icon": "Terminal",
+    "accent": "border-blue-500 text-blue-400",
+    "badge": "LEARNING",
+    "skills": [
+      {
+        "name": "Python 3 (Core Logic & Scripting)",
+        "level": 0
+      },
+      {
+        "name": "FastAPI / Flask (REST APIs)",
+        "level": 0
+      },
+      {
+        "name": "fetch() / Async API Integration",
+        "level": 0
+      },
+      {
+        "name": "JSON & CORS Configuration",
+        "level": 0
+      }
+    ]
+  },
+  {
+    "id": "ml",
+    "title": "ML & AI /// PIPELINES",
+    "icon": "Zap",
+    "accent": "border-red-500 text-red-400",
+    "badge": "PRIORITY",
+    "skills": [
+      {
+        "name": "scikit-learn (Classification / Regression)",
+        "level": 0
+      },
+      {
+        "name": "Hugging Face Transformers",
+        "level": 0
+      },
+      {
+        "name": "Python ML APIs (Text / NLP)",
+        "level": 0
+      },
+      {
+        "name": "MLOps & Model Deployment",
+        "level": 0
+      }
+    ]
+  },
+  {
+    "id": "devops",
+    "title": "DEVOPS /// CI/CD & CLOUD",
+    "icon": "Cloud",
+    "accent": "border-emerald-500 text-emerald-400",
+    "badge": "PRIORITY",
+    "skills": [
+      {
+        "name": "Docker & Containerization",
+        "level": 0
+      },
+      {
+        "name": "GitHub Actions (CI/CD Pipelines)",
+        "level": 0
+      },
+      {
+        "name": "Linux / Terminal & Bash",
+        "level": 0
+      },
+      {
+        "name": "Cloud VPS (DigitalOcean / AWS EC2)",
+        "level": 0
+      }
+    ]
+  }
+]

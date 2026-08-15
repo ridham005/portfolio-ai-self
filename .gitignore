@@ -1,0 +1,28 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
+
+# Production build
+dist/
+dist-ssr/
+
+# Local & Editor configs
+.env
+.env.local
+.vscode/
+.idea/
+.DS_Store
+
+# Temporary & media archives
+*.zip
+*.zip:*
+*.mp4
+*.py
+*.sh
+.originkit/
+video_frames/
+website_video_frames/
