@@ -2,8 +2,11 @@ import React, { createContext, useContext, useState, useCallback, useEffect } fr
 
 const AdminContext = createContext(null);
 
-const HASH_KEY = 'ridham_admin_hash';       // localStorage — persists password hash
+const HASH_KEY = 'ridham_admin_hash';       // localStorage — persists custom password hash
 const SESSION_KEY = 'ridham_admin_session'; // sessionStorage — clears on tab close
+
+// Fallback pre-set password hash (SHA-256 of "ridham005")
+const DEFAULT_HASH = '2f055dc75700f8e2404f10aef7132089b7ee92f635793bceca47890af2f5f106';
 
 /* SHA-256 using Web Crypto API */
 async function sha256(text) {
@@ -11,13 +14,15 @@ async function sha256(text) {
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+function getStoredHash() {
+  return localStorage.getItem(HASH_KEY) || DEFAULT_HASH;
+}
+
 export function AdminProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(() =>
     sessionStorage.getItem(SESSION_KEY) === 'true'
   );
-  const [isPasswordSet, setIsPasswordSet] = useState(() =>
-    Boolean(localStorage.getItem(HASH_KEY))
-  );
+  const [isPasswordSet, setIsPasswordSet] = useState(true); // Always true so login prompt appears everywhere
   const [modalOpen, setModalOpen] = useState(false);
   const [error, setError] = useState('');
 
@@ -34,9 +39,9 @@ export function AdminProvider({ children }) {
     return () => window.removeEventListener('keydown', handler);
   }, []);
 
-  /* Login — hash entered password, compare to stored hash */
+  /* Login — hash entered password, compare to stored/default hash */
   const login = useCallback(async (password) => {
-    const stored = localStorage.getItem(HASH_KEY);
+    const stored = getStoredHash();
     const hash = await sha256(password);
     if (hash === stored) {
       sessionStorage.setItem(SESSION_KEY, 'true');
@@ -64,7 +69,7 @@ export function AdminProvider({ children }) {
 
   /* Change password (must be logged in) */
   const changePassword = useCallback(async (currentPassword, newPassword) => {
-    const stored = localStorage.getItem(HASH_KEY);
+    const stored = getStoredHash();
     const currentHash = await sha256(currentPassword);
     if (currentHash !== stored) { setError('Current password is incorrect.'); return false; }
     if (newPassword.length < 6) { setError('New password must be at least 6 characters.'); return false; }
