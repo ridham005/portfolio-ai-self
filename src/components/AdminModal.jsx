@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Lock, Unlock, Eye, EyeOff, ShieldCheck, Shield, X, KeyRound, RefreshCw } from 'lucide-react';
+import { Lock, Unlock, Eye, EyeOff, ShieldCheck, Shield, X, KeyRound, RefreshCw, Download, Copy, Check } from 'lucide-react';
 import { useAdmin } from '../context/AdminContext';
+import { usePortfolio } from '../context/SkillsContext';
 
 export default function AdminModal() {
   const { isAdmin, isPasswordSet, modalOpen, setModalOpen, error, setError,
           login, setupPassword, changePassword, logout } = useAdmin();
+
+  const portfolio = usePortfolio();
 
   const [view, setView] = useState('login'); // 'login' | 'setup' | 'change' | 'panel'
   const [showPw, setShowPw] = useState(false);
@@ -12,6 +15,7 @@ export default function AdminModal() {
   const [pw2, setPw2] = useState('');
   const [pw3, setPw3] = useState('');
   const [success, setSuccess] = useState('');
+  const [copied, setCopied] = useState(false);
 
   // ALL hooks must be above any conditional return
   useEffect(() => {
@@ -58,6 +62,21 @@ export default function AdminModal() {
 
   const handleLogout = () => { logout(); close(); };
 
+  const exportData = () => {
+    const data = {
+      skills: portfolio.categories,
+      milestones: portfolio.milestones,
+      experience: portfolio.experience,
+      articles: portfolio.articles,
+      projects: portfolio.projects,
+      configurator: portfolio.configurator,
+    };
+    const json = JSON.stringify(data, null, 2);
+    navigator.clipboard.writeText(json);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-4"
@@ -102,17 +121,20 @@ export default function AdminModal() {
                 <div>
                   <div style={{ color: '#fff', fontSize: '13px', fontWeight: 700, fontFamily: 'monospace' }}>ADMIN ACCESS ACTIVE</div>
                   <div style={{ color: '#a1a1aa', fontSize: '11px', marginTop: '4px', lineHeight: 1.5 }}>
-                    All EDIT buttons are now visible. Session clears automatically when you close the tab.
+                    All EDIT buttons are now visible. Edits save to this browser.
                   </div>
                 </div>
               </div>
               <div style={{ border: '1px solid #27272a', padding: '12px', fontSize: '11px', fontFamily: 'monospace', color: '#71717a', lineHeight: 1.7 }}>
-                <strong style={{ color: '#d4d4d8' }}>SHORTCUT:</strong>{' '}
-                Press <kbd style={{ background: '#27272a', color: '#fff', padding: '1px 6px', borderRadius: '3px' }}>Ctrl</kbd>{' '}+{' '}
-                <kbd style={{ background: '#27272a', color: '#fff', padding: '1px 6px', borderRadius: '3px' }}>Shift</kbd>{' '}+{' '}
-                <kbd style={{ background: '#27272a', color: '#fff', padding: '1px 6px', borderRadius: '3px' }}>E</kbd>{' '}
-                anytime to open this panel.
+                <strong style={{ color: '#d4d4d8' }}>DEVICE NOTICE:</strong> Edits are saved in your current browser. To sync across all devices, click <strong style={{ color: '#38bdf8' }}>COPY SITE DATA JSON</strong> below and update the code defaults.
               </div>
+              <button onClick={exportData}
+                style={{ display: 'flex', itemsAlign: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '12px', border: '1px solid #0284c7', color: '#38bdf8', fontSize: '12px', fontFamily: 'monospace', fontWeight: 700, background: 'rgba(14,165,233,0.1)', cursor: 'pointer', transition: 'background 0.2s' }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(14,165,233,0.2)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(14,165,233,0.1)'}
+              >
+                {copied ? <><Check size={14} style={{ color: '#34d399' }} /> COPIED JSON TO CLIPBOARD!</> : <><Copy size={14} /> COPY SITE DATA (JSON)</>}
+              </button>
               <button onClick={() => { setView('change'); setError(''); setSuccess(''); }}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '12px', border: '1px solid #3f3f46', color: '#d4d4d8', fontSize: '12px', fontFamily: 'monospace', fontWeight: 700, background: 'transparent', cursor: 'pointer', transition: 'border-color 0.2s, color 0.2s' }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = '#fff'; e.currentTarget.style.color = '#fff'; }}
