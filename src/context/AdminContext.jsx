@@ -5,8 +5,8 @@ const AdminContext = createContext(null);
 const HASH_KEY = 'ridham_admin_hash';       // localStorage — persists custom password hash
 const SESSION_KEY = 'ridham_admin_session'; // sessionStorage — clears on tab close
 
-// Fallback pre-set password hash (SHA-256 of "ridham005")
-const DEFAULT_HASH = '2f055dc75700f8e2404f10aef7132089b7ee92f635793bceca47890af2f5f106';
+// Fallback pre-set password hash (SHA-256 of "Ridham@05")
+const DEFAULT_HASH = '9c52f4a825036f0ddd893d8b78b949e22dafe4617bc414542360b83a687241d4';
 
 /* SHA-256 using Web Crypto API */
 async function sha256(text) {
